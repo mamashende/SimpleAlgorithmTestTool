@@ -51,7 +51,7 @@ func readTestData(filename string) ([][]interface{}, error) {
 }
 
 // 写入结果文件
-func writeResult(filename string, results []interface{}, times []time.Duration) error {
+func writeResult(filename string, results []interface{}, times []time.Duration, datasizes []int) error {
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -61,6 +61,10 @@ func writeResult(filename string, results []interface{}, times []time.Duration) 
 	writer := bufio.NewWriter(file)
 	for i, result := range results {
 		_, err = writer.WriteString(fmt.Sprintf("Test %d:\n", i+1))
+		if err != nil {
+			return err
+		}
+		_, err = writer.WriteString(fmt.Sprintf("Data size: %d\n", datasizes[i]))
 		if err != nil {
 			return err
 		}
@@ -91,7 +95,7 @@ func main() {
 
 	var results []interface{}
 	var times []time.Duration
-
+	var dataSizes []int
 	// 循环处理每组测试数据
 	for i, testData := range testDataGroups {
 		// 记录开始时间
@@ -132,10 +136,17 @@ func main() {
 		// 记录结果和时间
 		results = append(results, result)
 		times = append(times, elapsed)
+
+		// 输出数据规模
+		dataSize := len(fmt.Sprintf("%v", testData[1]))
+		fmt.Printf("Data size: %d\n\n", dataSize)
+		dataSizes = append(dataSizes, dataSize)
+		// Output data size to console
+		//fmt.Printf("Data size: %d\n\n", dataSize)
 	}
 
 	// 写入结果文件
-	err = writeResult("result.txt", results, times)
+	err = writeResult("result.txt", results, times, dataSizes)
 	if err != nil {
 		fmt.Println("Error writing result:", err)
 	}

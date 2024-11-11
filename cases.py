@@ -10,9 +10,12 @@ def generate_lcs_test_cases(num_cases, str_length):
     return test_cases
 
 if __name__ == "__main__":
-    num_cases = 10
-    str_length = 100
-    test_cases = generate_lcs_test_cases(num_cases, str_length)
+    #num_cases = 
+    str_lengths = [10, 50, 100,200,400, 500,800, 1000]
     with open("testdata.txt", "w") as f:
-        for str1, str2 in test_cases:
-            f.write(f"{str1} {str2}\n")
+        for str_length in str_lengths:
+            test_cases = generate_lcs_test_cases(20, str_length)
+            for str1, str2 in test_cases:
+                f.write(f"{str1} {str2}\n")
+
+

@@ -1,0 +1,12 @@
+# Ignore Linux executables without file extensions
+*
+!*/
+!*.c
+!*.cpp
+!*.h
+!*.py
+!*.go
+!.gitignore
+!testdata.txt
+!*.md
+!go.mod
